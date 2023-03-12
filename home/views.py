@@ -10,9 +10,20 @@ def index(request):
 
 
 def create(request):
-    details = Detail(firstname=request.POST['firstname'], address=request.POST['address'])
-    details.save()
+    if request.method == 'POST':
+        firstname = request.POST['firstname']
+        address = request.POST['address']
+        data = Detail.objects.create(
+            firstname = firstname,
+            address = address,
+        )
+        data.save()
     return redirect('home')
+
+    # details = Detail(firstname=request.POST['firstname'], address=request.POST['address'])
+    # details.save()
+    # return redirect('home')
+
 
 
 def edit(request, id):
@@ -28,8 +39,20 @@ def update(request, id):
     details.save()
     return redirect('home')
 
+    # data = Detail.objects.get(id=id)
+    # data.save()
+    # if request.method == 'POST':
+    #     firstname = request.POST['firstname']
+    #     address = request.POST['address']
+    #     data = Detail.objects.create(
+    #         firstname = firstname,
+    #         address = address,
+    #     )
+    #     data.save()
+    # return redirect('home')
 
-def delete(request, id):
+
+def delete(request,id):
     remove = Detail.objects.get(id=id)
     remove.delete()
     return redirect('home')
